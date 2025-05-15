@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #fafafa;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      .translate-boxes {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+      }
+      .box {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(66,133,244,0.10), 0 1.5px 4px rgba(0,0,0,0.04);
+        padding: 32px 28px 24px 28px;
+        min-width: 370px;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border: 1.5px solid #e3e8f0;
+        transition: box-shadow 0.2s, border 0.2s;
+      }
+      .box:focus-within {
+        box-shadow: 0 6px 32px rgba(66,133,244,0.18), 0 2px 8px rgba(0,0,0,0.06);
+        border: 1.5px solid #4285f4;
+      }
+      .box-label {
+        font-size: 15px;
+        color: #4285f4;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .lang-select {
+        margin-bottom: 10px;
+        width: 120px;
+        border-radius: 6px;
+        border: 1px solid #cfd8dc;
+        padding: 4px 8px;
+        font-size: 15px;
+        background: #f5f7fa;
+        color: #222;
+      }
+      textarea {
+        width: 100%;
+        height: 110px;
+        resize: none;
+        font-size: 17px;
+        border-radius: 8px;
+        border: 1.5px solid #e3e8f0;
+        padding: 10px;
+        background: #f8fafc;
+        margin-top: 4px;
+        margin-bottom: 2px;
+        transition: border 0.2s;
+      }
+      textarea:focus {
+        border: 1.5px solid #4285f4;
+        outline: none;
+      }
+      .result {
+        font-size: 18px;
+        color: #222;
+        min-height: 110px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1.5px solid #e3e8f0;
+        padding: 10px;
+        margin-top: 4px;
+        margin-bottom: 2px;
+        white-space: pre-wrap;
+        display: flex;
+        align-items: flex-start;
+      }
+      .translate-btn {
+        margin: 30px 0 0 0;
+        padding: 12px 38px;
+        font-size: 17px;
+        border-radius: 8px;
+        border: none;
+        background: linear-gradient(90deg, #4285f4 60%, #34a853 100%);
+        color: white;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(66,133,244,0.10);
+        transition: background 0.2s, box-shadow 0.2s;
+      }
+      .translate-btn:hover {
+        background: linear-gradient(90deg, #3367d6 60%, #0f9d58 100%);
+        box-shadow: 0 4px 16px rgba(66,133,244,0.16);
+      }
+      .icon {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position: absolute; top: 24px; right: 36px; z-index: 10;">
+      <form action="/set_api_key" method="get" style="display:inline;">
+        <button type="submit" style="padding:7px 18px; border-radius:7px; border:none; background:#e3e8f0; color:#4285f4; font-weight:600; font-size:15px; cursor:pointer;">API 키 변경</button>
+      </form>
+    </div>
+    <div class="container">
+      <form method="post" style="width: 100%;">
+        <div class="translate-boxes">
+          <div class="box">
+            <div class="box-label">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h-2V5H5v14h6v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5Zm14.707 3.293a1 1 0 0 0-1.414 0l-5 5 1.414 1.414L16 10.414V19h2v-8.586l2.293 2.293 1.414-1.414-5-5Z" fill="#4285f4"/></svg>
+              입력
+            </div>
+            <select class="lang-select" name="src_lang">
+              <option value="ko" <% if (src_lang === 'ko') { %>selected<% } %>>한국어</option>
+              <option value="en" <% if (src_lang === 'en') { %>selected<% } %>>영어</option>
+              <option value="ja" <% if (src_lang === 'ja') { %>selected<% } %>>일본어</option>
+            </select>
+            <textarea name="text" placeholder="번역할 내용을 입력하세요"><%= text || '' %></textarea>
+          </div>
+          <div class="box">
+            <div class="box-label">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18Zm0 2a7 7 0 1 0 0 14A7 7 0 0 0 12 5Zm-1 4h2v2h-2V9Zm0 4h2v4h-2v-4Z" fill="#34a853"/></svg>
+              출력
+            </div>
+            <select class="lang-select" name="lang">
+              <option value="en" <% if (lang === 'en') { %>selected<% } %>>영어</option>
+              <option value="ko" <% if (lang === 'ko') { %>selected<% } %>>한국어</option>
+              <option value="ja" <% if (lang === 'ja') { %>selected<% } %>>일본어</option>
+            </select>
+            <div class="result"><%= translated %></div>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <button class="translate-btn" type="submit">번역</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html> 

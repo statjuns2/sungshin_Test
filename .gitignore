@@ -13,4 +13,6 @@ __pycache__/
 # 기타
 .DS_Store
 *.sqlite3
-instance/ 
+instance/
+
+node_modules/ 
