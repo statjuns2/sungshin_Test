@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 환경변수 파일
+.env
+
+# Vercel
+.vercel/
+
+# 기타
+.DS_Store
+*.sqlite3
+instance/ 
